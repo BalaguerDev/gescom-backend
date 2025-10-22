@@ -12,10 +12,13 @@
   "license": "ISC",
   "description": "Backend de la app comercial Gescom",
   "dependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "@prisma/client": "^6.17.1",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "express-jwt": "^8.5.1",
-    "jwks-rsa": "^3.2.0"
+    "jwks-rsa": "^3.2.0",
+    "prisma": "^6.17.1"
   }
 }
