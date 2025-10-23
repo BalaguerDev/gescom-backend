@@ -24,7 +24,7 @@ model Client {
 }
 
 model Order {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   clientId    Int
   orderNumber String
   productName String
@@ -32,5 +32,16 @@ model Order {
   price       Float
   date        DateTime
   references  String[]
-  client      Client   @relation(fields: [clientId], references: [id])
+  client      Client      @relation(fields: [clientId], references: [id])
+  items       OrderItem[] 
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  ref       String
+  nombre    String
+  cantidad  Int
+  precio    Float
+  order     Order   @relation(fields: [orderId], references: [id])
 }

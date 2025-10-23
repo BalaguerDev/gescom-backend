@@ -1,9 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-
 export const getClients = async () => {
   const clients = await prisma.client.findMany({
-    include: { orders: true },
+    include: {
+      orders: {
+        include: {
+          items: true, // ✅ ahora existe
+        },
+      },
+    },
   });
 
   const clientsSorted = clients.map(client => {
@@ -25,6 +30,20 @@ export const getClients = async () => {
       ? ((totalCurrent - totalLast) / totalLast) * 100
       : 0;
 
+    // 🔹 Adaptamos pedidos para enviar items
+    const pedidosFormateados = client.orders.map(order => ({
+      id: order.id,
+      numero: order.orderNumber,
+      fecha: order.date,
+      referencias: order.items.map(i => i.ref),
+      items: order.items.map(i => ({
+        ref: i.ref,
+        nombre: i.nombre,
+        cantidad: i.cantidad,
+        precio: i.precio,
+      })),
+    }));
+
     return {
       ...client,
       totalCurrent,
@@ -34,9 +53,10 @@ export const getClients = async () => {
         current: familiasCurrent,
         last: familiasLast,
       },
+      pedidos: pedidosFormateados,
     };
   })
-  .sort((a, b) => b.totalCurrent - a.totalCurrent);
+    .sort((a, b) => b.totalCurrent - a.totalCurrent);
 
   return clientsSorted;
 };

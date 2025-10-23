@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node --watch server.js",
     "start": "node server.js",
-     "seed": "node prisma/seed.js"
+     "seed": "node prisma/seedClients.js"
   },
   "keywords": [],
   "author": "",

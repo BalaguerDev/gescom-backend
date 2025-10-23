@@ -1,26 +1,16 @@
 -- CreateTable
-CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Client" (
     "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
+    "category" TEXT,
     "cif" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "category" TEXT,
     "notes" TEXT,
-    "revenueLastYear" JSONB NOT NULL,
-    "revenueCurrentYear" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "revenueCurrentYear" JSONB NOT NULL,
+    "revenueLastYear" JSONB NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Client_pkey" PRIMARY KEY ("id")
@@ -32,19 +22,28 @@ CREATE TABLE "Order" (
     "clientId" INTEGER NOT NULL,
     "orderNumber" TEXT NOT NULL,
     "productName" TEXT NOT NULL,
-    "references" TEXT[],
     "units" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "references" TEXT[],
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+-- CreateTable
+CREATE TABLE "OrderItem" (
+    "id" SERIAL NOT NULL,
+    "orderId" INTEGER NOT NULL,
+    "ref" TEXT NOT NULL,
+    "nombre" TEXT NOT NULL,
+    "cantidad" INTEGER NOT NULL,
+    "precio" DOUBLE PRECISION NOT NULL,
 
--- AddForeignKey
-ALTER TABLE "Client" ADD CONSTRAINT "Client_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
+);
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
