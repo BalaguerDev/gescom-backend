@@ -8,32 +8,31 @@ datasource db {
 }
 
 model Client {
-  id                 Int      @id @default(autoincrement())
+  id                 Int       @id @default(autoincrement())
   name               String
-  category           String?
   cif                String
   phone              String
   email              String
   address            String
+  category           String
   notes              String?
-  createdAt          DateTime @default(now())
+  lat                Float?
+  lng                Float?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  orders             Order[]
   revenueCurrentYear Json
   revenueLastYear    Json
-  updatedAt          DateTime @updatedAt
-  orders             Order[]
 }
 
 model Order {
   id          Int         @id @default(autoincrement())
   clientId    Int
   orderNumber String
-  productName String
-  units       Int
-  price       Float
   date        DateTime
-  references  String[]
+  total       Float
   client      Client      @relation(fields: [clientId], references: [id])
-  items       OrderItem[] 
+  items       OrderItem[]
 }
 
 model OrderItem {
@@ -43,5 +42,6 @@ model OrderItem {
   nombre    String
   cantidad  Int
   precio    Float
+  total     Float
   order     Order   @relation(fields: [orderId], references: [id])
 }

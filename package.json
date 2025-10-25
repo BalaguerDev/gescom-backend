@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node --watch server.js",
     "start": "node server.js",
-     "seed": "node prisma/seedClients.js"
+    "seed": "node prisma/seedClients.js",
+    "update-coords": "node scripts/updateClientCoords.js"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +25,7 @@
   "devDependencies": {
     "prisma": "^6.18.0"
   },
-   "prisma": {
+  "prisma": {
     "seed": "node prisma/seedClients.js"
   }
 }

@@ -2,16 +2,16 @@
 CREATE TABLE "Client" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "category" TEXT,
     "cif" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "address" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
     "notes" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "revenueCurrentYear" JSONB NOT NULL,
     "revenueLastYear" JSONB NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Client_pkey" PRIMARY KEY ("id")
 );
@@ -21,11 +21,8 @@ CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "clientId" INTEGER NOT NULL,
     "orderNumber" TEXT NOT NULL,
-    "productName" TEXT NOT NULL,
-    "units" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
-    "references" TEXT[],
+    "total" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
